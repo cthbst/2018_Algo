@@ -13,7 +13,7 @@ elif [ ! -r $1 ] ; then
 	echo "File not found: $1" 1>&2
 	exit 1
 elif [[ $1 =~ .*\.cpp$ ]] ; then
-	objs=$(find $gmp/ -name '*.o')
+	objs=$(find ./$gmp/ -name '*.o')
 	g++ $1 $objs $options -o ${2:-submission.out} -std=c++14
 	exit $?
 else
