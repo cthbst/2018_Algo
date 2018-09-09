@@ -8,6 +8,11 @@ else
 	tar -xzf $gmp.tar.gz
 fi
 
+if [ ! -f compile ] ; then
+	curl -L $url/compile -o $file
+	chmod +x compile
+fi
+
 cd $gmp
 ./configure --disable-shared --enable-cxx
 make --jobs=4 CFLAGS="-O3 -pipe"
