@@ -1,6 +1,6 @@
 #!/bin/bash
 gmp="gmp-6.1.2"
-url="https://github.com/cthbst/2018_Algo/raw/master/HW0/gmp-6.1.2.tar.gz"
+url="https://github.com/cthbst/2018_Algo/raw/master/HW0"
 
 if [ ! -f $gmp.tar.gz ] ; then
 	curl -L $url/$gmp.tar.gz | tar -xzf -
