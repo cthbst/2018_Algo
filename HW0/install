@@ -9,7 +9,7 @@ else
 fi
 
 if [ ! -f compile ] ; then
-	curl -L $url/compile -o $file
+	curl -L $url/compile -o compile
 	chmod +x compile
 fi
 
