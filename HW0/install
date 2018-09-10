@@ -6,11 +6,11 @@ m4="m4-1.4"
 if [ ! -f $m4.tar.gz ] ; then
 	echo "Download m4"
 	# curl -L $url/$m4.tar.gz | tar -xzf -
-	# wget $url/$m4.tar.gz
-	# tar -xzf $m4.tar.gz	
+	wget $url/$m4.tar.gz
+	tar -xzf $m4.tar.gz	
 else 
 	echo "Just unzip m4"
-	# tar -xzf $m4.tar.gz
+	tar -xzf $m4.tar.gz
 fi
 
 # Install m4
@@ -27,11 +27,11 @@ gmp="gmp-6.1.2"
 if [ ! -f $gmp.tar.gz ] ; then
 	echo "Download gmp"
 	# curl -L $url/$gmp.tar.gz | tar -xzf -
-	# wget $url/$gmp.tar.gz
-	# tar -xzf $gmp.tar.gz
+	wget $url/$gmp.tar.gz
+	tar -xzf $gmp.tar.gz
 else
-	# Just unzip gmp
-	# tar -xzf $gmp.tar.gz
+	echo "Just unzip gmp"
+	tar -xzf $gmp.tar.gz
 fi
 
 # Install GMP
