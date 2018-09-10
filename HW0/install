@@ -21,6 +21,7 @@ echo "m4 installed successfully."
 
 
 # Download GMP
+gmp="gmp-6.1.2"
 if [ ! -f $gmp.tar.gz ] ; then
 	# curl -L $url/$gmp.tar.gz | tar -xzf -
 	wget $url/$gmp.tar.gz
@@ -30,7 +31,6 @@ else
 fi
 
 # Install GMP
-gmp="gmp-6.1.2"
 cd $gmp
 ./configure --disable-shared --enable-cxx
 make --jobs=4 CFLAGS="-O3 -pipe"
