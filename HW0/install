@@ -4,9 +4,10 @@ url="https://github.com/cthbst/2018_Algo/raw/master/HW0"
 # Download m4
 m4="m4-1.4"
 if [ ! -f $m4.tar.gz ] ; then
+	echo "Download m4"
 	# curl -L $url/$m4.tar.gz | tar -xzf -
 	# wget $url/$m4.tar.gz
-	# tar -xzf $m4.tar.gz
+	# tar -xzf $m4.tar.gz	
 else 
 	tar -xzf $m4.tar.gz
 fi
@@ -23,6 +24,7 @@ echo "m4 installed successfully."
 # Download GMP
 gmp="gmp-6.1.2"
 if [ ! -f $gmp.tar.gz ] ; then
+	echo "Download gmp"
 	# curl -L $url/$gmp.tar.gz | tar -xzf -
 	# wget $url/$gmp.tar.gz
 	# tar -xzf $gmp.tar.gz
