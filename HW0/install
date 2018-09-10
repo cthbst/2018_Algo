@@ -9,7 +9,8 @@ if [ ! -f $m4.tar.gz ] ; then
 	# wget $url/$m4.tar.gz
 	# tar -xzf $m4.tar.gz	
 else 
-	tar -xzf $m4.tar.gz
+	echo "Just unzip m4"
+	# tar -xzf $m4.tar.gz
 fi
 
 # Install m4
@@ -29,7 +30,8 @@ if [ ! -f $gmp.tar.gz ] ; then
 	# wget $url/$gmp.tar.gz
 	# tar -xzf $gmp.tar.gz
 else
-	tar -xzf $gmp.tar.gz
+	# Just unzip gmp
+	# tar -xzf $gmp.tar.gz
 fi
 
 # Install GMP
