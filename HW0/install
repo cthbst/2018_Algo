@@ -41,7 +41,7 @@ cd $gmp
 mkdir tmp
 ./configure --quiet --disable-shared --enable-cxx TMPDIR=tmp M4=$M4
 make --quiet --jobs=8 CFLAGS="-O3 -pipe" && echo "gmp installed" 1>&2
-make install
+PATH=$(pwd)/:$PATH
 
 rm -rf tmp
 cd ..
