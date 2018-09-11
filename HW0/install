@@ -1,51 +1,55 @@
 #!/bin/bash
 url="https://github.com/cthbst/2018_Algo/raw/master/HW0"
+m4="m4-1.4"
+gmp="gmp-6.1.2"
 
 # Download m4
-m4="m4-1.4"
 if [ ! -f $m4.tar.gz ] ; then
-	echo "Download m4"
+	echo "Downloading m4" 1>&2
 	# curl -L $url/$m4.tar.gz | tar -xzf -
-	wget $url/$m4.tar.gz
-	tar -xzf $m4.tar.gz	
-else 
-	echo "Just unzip m4"
-	tar -xzf $m4.tar.gz
+	wget --quiet $url/$m4.tar.gz && echo "m4 downloaded" 1>&2
 fi
+
+# Unzip m4
+echo "Unzipping m4" 1>&2
+tar -xzf $m4.tar.gz && echo "m4 unzipped" 1>&2
 
 # Install m4
+echo "Installing m4"
 cd $m4
-./configure --disable-shared
-make --jobs=4 CFLAGS="-O3 -pipe"
-PATH=$(pwd)/src/:$PATH
+./configure --quiet --disable-shared --prefix=$(pwd)
+make --quiet --jobs=8 CFLAGS="-O3 -pipe -w -static" && echo "m4 installed" 1>&2
+make install
+M4=$(pwd)/bin/m4
+$M4 --version 1>&2 || exit 1
 cd ..
-echo "m4 installed successfully."
-
 
 # Download GMP
-gmp="gmp-6.1.2"
 if [ ! -f $gmp.tar.gz ] ; then
-	echo "Download gmp"
+	echo "Downloading gmp" 1>&2
 	# curl -L $url/$gmp.tar.gz | tar -xzf -
-	wget $url/$gmp.tar.gz
-	tar -xzf $gmp.tar.gz
-else
-	echo "Just unzip gmp"
-	tar -xzf $gmp.tar.gz
+	wget --quiet $url/$gmp.tar.gz && echo "gmp downloaded" 1>&2 
 fi
 
-# Install GMP
-cd $gmp
-./configure --disable-shared --enable-cxx
-make --jobs=4 CFLAGS="-O3 -pipe"
-cd ..
-echo "GMP installed successfully."
+# Unzip gmp
+echo "Unzipping gmp" 1>&2
+tar -xzf $gmp.tar.gz && echo "gmp unzipped" 1>&2
 
-rm m4* $gmp.tar.gz -rf
+# Install GMP
+echo "Installing gmp" 1>&2
+cd $gmp
+mkdir tmp
+./configure --quiet --disable-shared --enable-cxx TMPDIR=tmp M4=$M4
+make --quiet --jobs=8 CFLAGS="-O3 -pipe" && echo "gmp installed" 1>&2
+rm -rf tmp
+cd ..
+rm -rf *.tar.gz
+rm -rf $m4/
 
 # Download compile
 if [ ! -f compile ] ; then
+	echo "Downloading compile" 1>&2
 	#curl -L $url/compile -o compile
-	wget $url/compile
+	wget --quiet $url/compile && echo "compile downloaded" 1>&2
 	chmod +x compile
 fi
