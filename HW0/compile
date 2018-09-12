@@ -20,7 +20,7 @@ elif [[ $1 =~ .*\.cpp$ ]] ; then
 		exit 1
 	fi
 	objs=$(find ./$gmp/ -name '*.o')
-	g++ $1 $objs $options -o ${2:-submission.out} -std=c++14
+	g++ $1 $objs $options -I$(pwd)/$gmp/ -o ${2:-submission.out} -std=c++14
 	exit $?
 else
 	echo "Unsupported file type" 1>&2
