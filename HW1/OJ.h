@@ -13,23 +13,23 @@ struct Verify{
 public:
     bool verify(int n, vector<Point> &points, vector<int> &match){
         if ( !verify_input(n,match) ) return 0;
+        if ( (int)points.size() != n*2 ) return 0;
 
         vector<Line> lines(n);
 
         for (int i=0; i<n; i++){
-            lines[i] = { points[i], points[n+i]-points[i] };
+            lines[i] = { points[i], points[n+match[i]]-points[i] };
         }
 
         for (int i=0; i<n; i++){
             for (int j=i+1; j<n; j++){
                 if ( intersection( lines[i], lines[j] ) ){
-                    return 1;
+                    return 0;
                 }
             }
         }
-        return 0;
+        return 1;
     }
-
 private:
     bool verify_input(int n, vector<int> &match){
         if ( (int)match.size()!=n ) return 0;
@@ -92,7 +92,7 @@ public:
             cout << "QaQ" << endl;
             return;
         }
-        cout << "OK" << endl;
+        cout << "haha123" << endl;
     }
 private:
     int n;
@@ -187,6 +187,86 @@ int main(int argc, char **argv){
     glutDisplayFunc(display);
     glutMainLoop();
     #endif
+}
+
+// Special function
+#include <bits/stdc++.h>
+using namespace std;
+
+bool check_partition(const vector<Point> P,const Line &l){
+    int n = (int)P.size()/2;
+    int cnt[2][2] = { {0,0}, {0,0} };
+
+    for (int i=0; i<n; i++){
+        int s = sgn( l.v % (P[i]-l.p) );
+        if ( s<0 ) cnt[0][0]++; // number of black points in the negative side
+        if ( s>0 ) cnt[0][1]++; // number of black points in the postive side
+    }
+    for (int i=0; i<n; i++){
+        int s = sgn( l.v % (P[n+i]-l.p) );
+        if ( s<0 ) cnt[1][0]++; // number of white points in the negative side
+        if ( s>0 ) cnt[1][1]++; // number of white points in the postive side
+    }
+
+    return cnt[0][0]==cnt[1][0] && cnt[0][1]==cnt[1][1];
+}
+
+using VP = vector<Point>;
+void linePartition(VP &P, VP &sub1, VP &sub2, const Line &l){
+    sub1.clear();
+    sub2.clear();
+
+    int n=0;
+
+    for (int i=0; i<(int)P.size(); i++){
+        int s = sgn( l.v % (P[i]-l.p) );
+        if ( s<0 ) sub1.push_back(P[i]);
+        if ( s>0 ) sub2.push_back(P[i]);
+        if ( s==0 ) swap(P[n++],P[i]);
+    }
+    P.resize(n);
+    P.shrink_to_fit();
+}
+
+// partition P into A and B
+// if P is legal than it most exist one partition
+void partition(vector<Point> &P, vector<Point> &sub1, vector<Point> &sub2){ 
+    int n = (int) P.size()/2;
+
+    for (int i=0; i<n; i++){
+        for (int j=0; j<n; j++){
+            Line l { P[i], P[n+j]-P[i] };
+            if ( check_partition(P,l) ){
+                linePartition(P,sub1,sub2,l);
+                return;
+            }
+        }
+    }
+
+    assert( false && "bad P" );
+}
+
+bool update(int n, vector<Point> &points){
+    vector<Line> lines(n);
+
+    for (int i=0; i<n; i++){
+        lines[i] = { points[i], points[n+i]-points[i] };
+    }
+
+    int p=-1, q=-1;
+
+    for (int i=0; i<n; i++){
+        for (int j=i+1; j<n; j++){
+            if ( intersection( lines[i], lines[j] ) ){
+                p = i, q = j;
+            }
+        }
+    }
+    if ( p!=-1 && q!=-1 ){
+        swap( points[n+p], points[n+q] );
+        return 1;
+    }
+    return 0;
 }
 
 #endif
